@@ -8,7 +8,7 @@ compressor="${compressor:-topk}"
 nwpernode=4
 nstepsupdate=1
 PY=python
-MPIPATH=/usr/local/openmpi/openmpi-4.0.1
+MPIPATH=$HOME/opt/openmpi
 
 HOROVOD_FUSION_THRESHOLD=0 $MPIPATH/bin/mpirun --oversubscribe --prefix $MPIPATH -np $nworkers -hostfile cluster$nworkers -bind-to none -map-by slot \
     -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH \

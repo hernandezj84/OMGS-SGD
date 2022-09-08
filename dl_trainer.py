@@ -4,7 +4,8 @@ import os
 import argparse
 import time
 import psutil
-
+# Fixing datasets error
+import h5py
 import torch
 import torchvision
 import torchvision.transforms as transforms
@@ -24,7 +25,7 @@ import models
 import logging
 import utils
 #from tensorboardX import SummaryWriter
-from datasets import DatasetHDF5
+#from datasets import DatasetHDF5
 from profiling import benchmark
 #writer = SummaryWriter()
 
@@ -296,7 +297,7 @@ class DLTrainer:
         #hdf5fn = os.path.join(self.data_dir, 'imagenet-shuffled-224.hdf5')
         hdf5fn = os.path.join(self.data_dir, 'imagenet-shuffled.hdf5')
         #trainset = torchvision.datasets.ImageFolder(traindir, transforms.Compose([
-        trainset = DatasetHDF5(hdf5fn, 'train', transforms.Compose([
+        trainset = h5py(hdf5fn, 'train', transforms.Compose([
             transforms.ToPILImage(),
             transforms.RandomResizedCrop(image_size),
             transforms.RandomHorizontalFlip(),
@@ -319,7 +320,7 @@ class DLTrainer:
             batch_size=self.batch_size, shuffle=shuffle,
             num_workers=NUM_CPU_THREADS, pin_memory=True, sampler=train_sampler)
         #testset = torchvision.datasets.ImageFolder(testdir, transforms.Compose([
-        testset = DatasetHDF5(hdf5fn, 'val', transforms.Compose([
+        testset = h5py(hdf5fn, 'val', transforms.Compose([
                 transforms.ToPILImage(),
         #        transforms.Scale(256),
                 transforms.CenterCrop(224),
